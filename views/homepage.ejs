@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+ <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="profileImage"/>
+    <button type="submite" >upload</button>
+ </form>
+
+ <div style="margin-top: 30px">
+    <% if (locals.paths) { %>
+    <table>
+      <thead>
+        <th>S. No</th>
+        <th>Name</th>
+        <th>FilePath</th>
+        <th>Size</th>
+      </thead>
+      <tbody>
+        <% paths.forEach((paths, index) => { %>
+        <tr>
+          <td><%= index + 1   %></td>
+          <td><%= paths.originalName   %></td>
+          <td><%= paths.filePath  %></td>
+          <td><%= (paths.size / 1024).toFixed(2) + "kb"%></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+  <div style="margin-top: 30px">
+    <% if (locals.img) 
+    { %>
+  <img src= "/<%= locals.img %>" alt="Uploaded Image" />
+    
+    <% } %>
+  </div>
+
+</body>
+</html>
