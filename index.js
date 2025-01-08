@@ -18,6 +18,7 @@ app.set("view engine","ejs")
 app.set("views",path.resolve("./views"))
 
 app.use(express.urlencoded({extended:false}))
+app.use('/upload', express.static(path.join(__dirname, 'upload')));
 
 app.use("/",router)
 app.use("/upload",router)

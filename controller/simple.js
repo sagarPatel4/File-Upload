@@ -1,21 +1,24 @@
-const File=require("../model/file")
+const File = require("../model/file")
 
 async function renderhomepage(req, res) {
 
     const allPath = await File.find({})
-    return res.render("homepage", { paths: allPath ,});
+    return res.render("homepage", { paths: allPath, });
 
 }
 async function getImagePath(req, res) {
 
-    console.log('Requested filePath:', req.params.filename);
-    const filename = req.params.filename.replace(/\\/g, '/');
-    console.log('Requested filePath:', filename);
-
-    const img = await File.findOne({filename:filename})
-    console.log(img+"SDFFSF");
-    
-    return res.render("homepage", { img: img ,});
+    try {
+        const img = await File.findOne({ filename: req.params.filename })
+        if (!img) {
+            return res.status(404).send('Image not found')
+        }
+        console.log(`/upload/${img.filename}`);
+        
+        res.render('image', { imgPath: `/upload/${img.filename}` });
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
 
 }
 
@@ -43,4 +46,4 @@ async function imagesave(req, res) {
     }
 
 }
-module.exports = { renderhomepage, imagesave,getImagePath }
+module.exports = { renderhomepage, imagesave, getImagePath }
